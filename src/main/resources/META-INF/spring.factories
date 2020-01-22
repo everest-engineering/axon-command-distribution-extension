@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+engineering.everest.starterkit.axon.config.AxonHazelcastConfig
