@@ -9,8 +9,6 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.common.Registration;
 import org.axonframework.messaging.MessageDispatchInterceptor;
 import org.axonframework.modelling.command.AnnotationCommandTargetResolver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -20,13 +18,11 @@ import java.util.concurrent.TimeoutException;
 import static org.axonframework.commandhandling.GenericCommandMessage.asCommandMessage;
 import static org.axonframework.commandhandling.GenericCommandResultMessage.asCommandResultMessage;
 
-@Component
 public class HazelcastCommandGateway implements CommandGateway {
 
     private final HazelcastInstance hazelcastInstance;
     private final AnnotationCommandTargetResolver annotationCommandTargetResolver;
 
-    @Autowired
     public HazelcastCommandGateway(HazelcastInstance hazelcastInstance,
                                    AnnotationCommandTargetResolver annotationCommandTargetResolver) {
         this.hazelcastInstance = hazelcastInstance;

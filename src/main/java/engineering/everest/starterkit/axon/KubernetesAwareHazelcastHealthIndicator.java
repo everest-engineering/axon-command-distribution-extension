@@ -2,20 +2,16 @@ package engineering.everest.starterkit.axon;
 
 import com.hazelcast.core.HazelcastInstance;
 import io.kubernetes.client.util.ClientBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
 public class KubernetesAwareHazelcastHealthIndicator implements HealthIndicator {
 
     private final HazelcastInstance hazelcastInstance;
     private final boolean isRunningInKubernetes;
 
-    @Autowired
     public KubernetesAwareHazelcastHealthIndicator(HazelcastInstance hazelcastInstance) {
         this.hazelcastInstance = hazelcastInstance;
         this.isRunningInKubernetes = determineIfRunningInKubernetes();

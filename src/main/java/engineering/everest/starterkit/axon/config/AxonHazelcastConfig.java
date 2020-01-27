@@ -3,12 +3,17 @@ package engineering.everest.starterkit.axon.config;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ExecutorConfig;
 import com.hazelcast.config.JoinConfig;
+import com.hazelcast.core.HazelcastInstance;
+import engineering.everest.starterkit.axon.HazelcastApplicationContextHolder;
+import engineering.everest.starterkit.axon.HazelcastCommandGateway;
+import engineering.everest.starterkit.axon.KubernetesAwareHazelcastHealthIndicator;
 import io.kubernetes.client.util.ClientBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.axonframework.common.caching.JCacheAdapter;
 import org.axonframework.modelling.command.AnnotationCommandTargetResolver;
 import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -56,6 +61,15 @@ public class AxonHazelcastConfig {
         return hazelcastConfiguration;
     }
 
+    private boolean isRunningInKubernetes() {
+        try {
+            ClientBuilder.cluster().build();
+        } catch (IOException e) {
+            return false; // Throws if service account token not present
+        }
+        return true;
+    }
+
     @Bean
     @Qualifier("axon-aggregates-cache-adapter")
     @SuppressWarnings("PMD.CloseResource")
@@ -73,16 +87,23 @@ public class AxonHazelcastConfig {
     }
 
     @Bean
+    public HazelcastApplicationContextHolder hazelcastContextHolder() {
+        return new HazelcastApplicationContextHolder();
+    }
+
+    @Bean
     public AnnotationCommandTargetResolver annotationCommandTargetResolver() {
         return AnnotationCommandTargetResolver.builder().build();
     }
 
-    private boolean isRunningInKubernetes() {
-        try {
-            ClientBuilder.cluster().build();
-        } catch (IOException e) {
-            return false; // Throws if service account token not present
-        }
-        return true;
+    @Bean
+    public HazelcastCommandGateway hazelcastCommandGateway(HazelcastInstance hazelcastInstance,
+                                                           AnnotationCommandTargetResolver annotationCommandTargetResolver) {
+        return new HazelcastCommandGateway(hazelcastInstance, annotationCommandTargetResolver);
+    }
+
+    @Bean
+    public HealthIndicator kubenertesAwareHealthIndicator(HazelcastInstance hazelcastInstance) {
+        return new KubernetesAwareHazelcastHealthIndicator(hazelcastInstance);
     }
 }
