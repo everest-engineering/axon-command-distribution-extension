@@ -3,10 +3,12 @@ plugins {
 	id 'io.freefair.lombok' version '4.1.5'
 	id 'maven-publish'
 	id "com.jfrog.bintray" version "1.8.4"
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
 apply plugin: 'io.freefair.lombok'
 apply plugin: 'idea'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'engineering.everest.starterkit'
 version = '0.0.6'
@@ -30,9 +32,15 @@ ext {
     springBootVersion = '2.2.4.RELEASE'
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+    }
+}
+
 dependencies {
-    implementation "org.springframework.boot:spring-boot-actuator:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-actuator"
+    implementation "org.springframework.boot:spring-boot-starter"
 
     implementation "javax.cache:cache-api:1.1.1"
     implementation "org.ehcache:ehcache:3.8.1"
