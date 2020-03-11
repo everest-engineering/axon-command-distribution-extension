@@ -4,9 +4,11 @@ import com.hazelcast.core.HazelcastInstance;
 import io.kubernetes.client.util.ClientBuilder;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Component
 public class KubernetesAwareHazelcastHealthIndicator implements HealthIndicator {
 
     private final HazelcastInstance hazelcastInstance;
