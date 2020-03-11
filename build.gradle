@@ -29,7 +29,15 @@ lombok {
 
 ext {
     axonVersion = '4.2'
+    ehCacheVersion = '3.8.1'
+    hazelcastKubernetesVersion = '1.5.2'
+    hazelcastVersion = '3.11.7'
+    javaXCacheVersion = '1.1.1'
+    kubernetesClientVersion = '6.0.1'
     springBootVersion = '2.2.5.RELEASE'
+
+    mockitoVersion = '3.2.4'
+    junitVersion = '5.6.0'
 }
 
 dependencyManagement {
@@ -39,11 +47,11 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-actuator"
-    implementation "org.springframework.boot:spring-boot-starter"
+    implementation 'org.springframework.boot:spring-boot-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter'
 
-    implementation "javax.cache:cache-api:1.1.1"
-    implementation "org.ehcache:ehcache:3.8.1"
+    implementation "javax.cache:cache-api:${javaXCacheVersion}"
+    implementation "org.ehcache:ehcache:${ehCacheVersion}"
 
     implementation "org.axonframework:axon-modelling:${axonVersion}"
     implementation "org.axonframework:axon-messaging:${axonVersion}"
@@ -51,14 +59,13 @@ dependencies {
     implementation "org.axonframework:axon-spring:${axonVersion}"
     implementation "org.axonframework:axon-micrometer:${axonVersion}"
 
-    implementation "com.hazelcast:hazelcast:3.11.4"
-    implementation "com.hazelcast:hazelcast-kubernetes:1.5.2"
+    implementation "com.hazelcast:hazelcast:${hazelcastVersion}"
+    implementation "com.hazelcast:hazelcast-kubernetes:${hazelcastKubernetesVersion}"
+    implementation "io.kubernetes:client-java:${kubernetesClientVersion}"
 
-    implementation "io.kubernetes:client-java:6.0.1"
-
-    testImplementation 'org.springframework:spring-test:5.2.1.RELEASE'
-    testImplementation "org.junit.jupiter:junit-jupiter:5.5.2"
-    testImplementation "org.mockito:mockito-junit-jupiter:2.23.0"
+    testImplementation 'org.springframework:spring-test'
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
 }
 
 bintray {
