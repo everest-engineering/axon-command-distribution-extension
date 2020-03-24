@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @Log4j2
-class TcpIpConfigHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
+public class TcpIpConfigHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
 
     @Value("${axon.hazelcast.members:}")
     private List<String> hazelcastMembers;

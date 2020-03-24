@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Log4j2
-class DefaultMulticastHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
+public class DefaultMulticastHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
 
     @Override
     public boolean canApply() {
