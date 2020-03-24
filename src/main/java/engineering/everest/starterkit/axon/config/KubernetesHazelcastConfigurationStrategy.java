@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @Component
 @Log4j2
-class KubernetesHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
+public class KubernetesHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
 
     private static final String KUBERNETES_NAMESPACE = "default";     // TODO: make configurable
     private static final String KUBERNETES_SERVICE_NAME = "web-app";  // TODO: make configurable
