@@ -33,7 +33,7 @@ lombok {
 }
 
 ext {
-    axonVersion = '4.3'
+    axonVersion = '4.3.1'
     ehCacheVersion = '3.8.1'
     hazelcastKubernetesVersion = '1.5.2'
     hazelcastVersion = '3.11.7'
