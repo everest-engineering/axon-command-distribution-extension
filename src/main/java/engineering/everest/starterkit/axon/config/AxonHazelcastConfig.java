@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.CreatedExpiryPolicy;
@@ -55,15 +56,13 @@ public class AxonHazelcastConfig {
     @Qualifier("axon-aggregates-cache-adapter")
     @SuppressWarnings("PMD.CloseResource")
     public JCacheAdapter cacheAdapter() {
-        CacheManager cacheManager = getCachingProvider(EhcacheCachingProvider.class.getCanonicalName()).getCacheManager();
-        var config = new MutableConfiguration<String, Object>()
-                .setTypes(String.class, Object.class)
+        var cacheManager = getCachingProvider(EhcacheCachingProvider.class.getCanonicalName()).getCacheManager();
+        var config = new MutableConfiguration<>()
                 .setStoreByValue(false)
                 .setStatisticsEnabled(true)
                 .setManagementEnabled(true)
                 .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(FIVE_MINUTES));
 
-        var cache = cacheManager.createCache(AXON_AGGREGATES_CACHE, config);
-        return new JCacheAdapter(cache);
+        return new JCacheAdapter(cacheManager.createCache(AXON_AGGREGATES_CACHE, config));
     }
 }

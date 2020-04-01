@@ -11,7 +11,7 @@ apply plugin: 'idea'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'engineering.everest.starterkit'
-version = '0.0.9'
+version = '0.0.10'
 sourceCompatibility = '1.11'
 
 repositories {
@@ -28,7 +28,7 @@ lombok {
 }
 
 ext {
-    axonVersion = '4.2'
+    axonVersion = '4.3'
     ehCacheVersion = '3.8.1'
     hazelcastKubernetesVersion = '1.5.2'
     hazelcastVersion = '3.11.7'
