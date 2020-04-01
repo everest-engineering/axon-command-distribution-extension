@@ -3,6 +3,7 @@ plugins {
 	id 'io.freefair.lombok' version '4.1.6'
 	id 'maven-publish'
 	id "com.jfrog.bintray" version "1.8.4"
+    id 'fr.brouillard.oss.gradle.jgitver' version '0.9.1'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
@@ -11,11 +12,15 @@ apply plugin: 'idea'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'engineering.everest.starterkit'
-version = '0.0.10'
 sourceCompatibility = '1.11'
 
 repositories {
 	mavenCentral()
+}
+
+jgitver {
+    autoIncrementPatch = false
+    useDirty = true
 }
 
 test {
