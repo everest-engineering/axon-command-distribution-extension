@@ -1,21 +1,20 @@
 plugins {
-	id 'java'
-	id 'io.freefair.lombok' version '4.1.6'
-	id 'maven-publish'
-	id "com.jfrog.bintray" version "1.8.4"
+    id 'com.jfrog.bintray' version '1.8.4'
     id 'fr.brouillard.oss.gradle.jgitver' version '0.9.1'
+    id 'idea'
+    id 'io.freefair.lombok' version '4.1.6'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java-library'
+    id 'maven-publish'
 }
 
 apply plugin: 'io.freefair.lombok'
-apply plugin: 'idea'
-apply plugin: 'io.spring.dependency-management'
 
 group = 'engineering.everest.starterkit'
 sourceCompatibility = '1.11'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 jgitver {
@@ -24,11 +23,11 @@ jgitver {
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 lombok {
-    version = "1.18.12"
+    version = '1.18.12'
     generateLombokConfig.enabled = false
 }
 
@@ -52,19 +51,13 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter'
+    api 'org.springframework.boot:spring-boot-actuator'
+    api "com.hazelcast:hazelcast:${hazelcastVersion}"
 
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation "javax.cache:cache-api:${javaXCacheVersion}"
     implementation "org.ehcache:ehcache:${ehCacheVersion}"
-
     implementation "org.axonframework:axon-modelling:${axonVersion}"
-    implementation "org.axonframework:axon-messaging:${axonVersion}"
-    implementation "org.axonframework:axon-eventsourcing:${axonVersion}"
-    implementation "org.axonframework:axon-spring:${axonVersion}"
-    implementation "org.axonframework:axon-micrometer:${axonVersion}"
-
-    implementation "com.hazelcast:hazelcast:${hazelcastVersion}"
     implementation "com.hazelcast:hazelcast-kubernetes:${hazelcastKubernetesVersion}"
     implementation "io.kubernetes:client-java:${kubernetesClientVersion}"
 
