@@ -2,7 +2,7 @@ plugins {
     id 'com.palantir.git-version' version '0.12.3'
     id 'com.jfrog.bintray' version '1.8.4'
     id 'idea'
-    id 'io.freefair.lombok' version '4.1.6'
+    id 'io.freefair.lombok' version '5.0.1'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java-library'
     id 'maven-publish'
@@ -28,16 +28,16 @@ lombok {
 }
 
 ext {
-    axonVersion = '4.3.1'
+    axonVersion = '4.3.3'
     ehCacheVersion = '3.8.1'
-    hazelcastKubernetesVersion = '1.5.2'
-    hazelcastVersion = '3.11.7'
+    hazelcastKubernetesVersion = '1.5.3'
+    hazelcastVersion = '3.12.7'
     javaXCacheVersion = '1.1.1'
     kubernetesClientVersion = '6.0.1'
-    springBootVersion = '2.2.5.RELEASE'
+    springBootVersion = '2.2.7.RELEASE'
 
-    mockitoVersion = '3.2.4'
-    junitVersion = '5.6.0'
+    junitVersion = '5.6.2'
+    mockitoVersion = '3.3.3'
 }
 
 dependencyManagement {
