@@ -12,3 +12,11 @@ Commands dispatched through the Hazelcast command gateway are deterministically 
 Hazelcast will automatically reassign aggregate ownership if an application instance leaves the cluster due to a restart, network disconnection or other failure.
 
 Events emitted by an aggregate are passed to the application instance's local event bus. Events are persisted to the event log by the instance handling the command. Subscribing event processing (the default in our configuration) guarantee that the same instance will be performing the event handling.
+
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+[![License: EverestEngineering](https://img.shields.io/badge/Copyright%20%C2%A9-EVERESTENGINEERING-blue)](https://everest.engineering)
+
+>Talk to us `hi@everest.engineering`.
