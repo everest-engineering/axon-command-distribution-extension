@@ -23,7 +23,7 @@ public class AxonHazelcastConfig {
     public static final String AXON_COMMAND_DISPATCHER = "axon-command-dispatcher";
     public static final String AXON_AGGREGATES_CACHE = "axonAggregates";
 
-    private List<HazelcastConfigurationStrategy> configurationStrategies;
+    private final List<HazelcastConfigurationStrategy> configurationStrategies;
 
     @Autowired
     public AxonHazelcastConfig(DefaultMulticastHazelcastConfigurationStrategy defaultMulticastHazelcastConfigurationStrategy,
