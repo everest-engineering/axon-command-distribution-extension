@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.cache.Cache;
-import javax.cache.CacheManager;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.CreatedExpiryPolicy;
 import java.util.List;
@@ -26,7 +24,7 @@ public class AxonHazelcastConfig {
     public static final String AXON_COMMAND_DISPATCHER = "axon-command-dispatcher";
     private static final String AXON_AGGREGATES_CACHE = "axonAggregates";
 
-    private List<HazelcastConfigurationStrategy> configurationStrategies;
+    private final List<HazelcastConfigurationStrategy> configurationStrategies;
 
     @Autowired
     public AxonHazelcastConfig(DefaultMulticastHazelcastConfigurationStrategy defaultMulticastHazelcastConfigurationStrategy,
