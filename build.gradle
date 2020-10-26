@@ -28,16 +28,16 @@ lombok {
 }
 
 ext {
-    axonVersion = '4.4.2'
+    axonVersion = '4.4.3'
     ehCacheVersion = '3.8.1'
     hazelcastKubernetesVersion = '1.5.3'
     hazelcastVersion = '3.12.7'
     javaXCacheVersion = '1.1.1'
     kubernetesClientVersion = '6.0.1'
-    springBootVersion = '2.3.3.RELEASE'
+    springBootVersion = '2.3.4.RELEASE'
 
-    junitVersion = '5.6.2'
-    mockitoVersion = '3.5.0'
+    junitVersion = '5.7.0'
+    mockitoVersion = '3.5.15'
 }
 
 dependencyManagement {
