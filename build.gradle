@@ -29,9 +29,9 @@ lombok {
 
 ext {
     axonVersion = '4.4.3'
-    ehCacheVersion = '3.8.1'
-    hazelcastKubernetesVersion = '1.5.3'
-    hazelcastVersion = '3.12.7'
+    ehCacheVersion = '3.9.0'
+    hazelcastKubernetesVersion = '1.5.4'
+    hazelcastVersion = '3.12.10'
     javaXCacheVersion = '1.1.1'
     kubernetesClientVersion = '6.0.1'
     springBootVersion = '2.3.4.RELEASE'
