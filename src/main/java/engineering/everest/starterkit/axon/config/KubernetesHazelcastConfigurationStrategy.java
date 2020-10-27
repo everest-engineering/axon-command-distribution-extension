@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static io.kubernetes.client.util.Config.ENV_SERVICE_HOST;
+import static io.kubernetes.client.util.Config.ENV_SERVICE_PORT;
+
 @Component
 @Log4j2
 public class KubernetesHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
@@ -32,11 +35,6 @@ public class KubernetesHazelcastConfigurationStrategy implements HazelcastConfig
     }
 
     private boolean isRunningInKubernetes() {
-        try {
-            ClientBuilder.cluster().build();
-        } catch (IOException e) {
-            return false; // Throws if service account token not present
-        }
-        return true;
+        return System.getenv(ENV_SERVICE_HOST) != null && System.getenv(ENV_SERVICE_PORT) != null;
     }
 }

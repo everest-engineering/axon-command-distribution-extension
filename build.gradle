@@ -33,11 +33,12 @@ ext {
     hazelcastKubernetesVersion = '1.5.4'
     hazelcastVersion = '3.12.10'
     javaXCacheVersion = '1.1.1'
-    kubernetesClientVersion = '6.0.1'
+    kubernetesClientVersion = '10.0.0'
     springBootVersion = '2.3.4.RELEASE'
 
     junitVersion = '5.7.0'
     mockitoVersion = '3.5.15'
+    systemLambdaVersion = '1.1.1'
 }
 
 dependencyManagement {
@@ -60,6 +61,7 @@ dependencies {
     testImplementation 'org.springframework:spring-test'
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
     testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    testImplementation "com.github.stefanbirkner:system-lambda:${systemLambdaVersion}"
 }
 
 bintray {
