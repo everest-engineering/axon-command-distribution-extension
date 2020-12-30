@@ -4,12 +4,14 @@ import com.hazelcast.config.Config;
 import com.hazelcast.config.JoinConfig;
 import io.kubernetes.client.util.ClientBuilder;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 import static io.kubernetes.client.util.Config.ENV_SERVICE_HOST;
 import static io.kubernetes.client.util.Config.ENV_SERVICE_PORT;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 @Component
 @Log4j2
@@ -35,6 +37,6 @@ public class KubernetesHazelcastConfigurationStrategy implements HazelcastConfig
     }
 
     private boolean isRunningInKubernetes() {
-        return System.getenv(ENV_SERVICE_HOST) != null && System.getenv(ENV_SERVICE_PORT) != null;
+        return isNotBlank(System.getenv(ENV_SERVICE_HOST)) && isNotBlank(System.getenv(ENV_SERVICE_PORT));
     }
 }

@@ -1,9 +1,8 @@
 package engineering.everest.starterkit.axon.config;
 
+import com.hazelcast.cluster.MembershipEvent;
+import com.hazelcast.cluster.MembershipListener;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.MemberAttributeEvent;
-import com.hazelcast.core.MembershipEvent;
-import com.hazelcast.core.MembershipListener;
 import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +24,6 @@ public class HazelcastMembershipChangeCacheInvalidator implements MembershipList
     @Override
     public void memberRemoved(MembershipEvent membershipEvent) {
         clearLocalAxonCache();
-    }
-
-    @Override
-    public void memberAttributeChanged(MemberAttributeEvent memberAttributeEvent) {
     }
 
     private void clearLocalAxonCache() {

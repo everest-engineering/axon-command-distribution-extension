@@ -23,18 +23,18 @@ test {
 }
 
 lombok {
-    version = '1.18.12'
+    version = '1.18.16'
     generateLombokConfig.enabled = false
 }
 
 ext {
-    axonVersion = '4.4.3'
+    axonVersion = '4.4.5'
     ehCacheVersion = '3.9.0'
-    hazelcastKubernetesVersion = '1.5.4'
-    hazelcastVersion = '3.12.10'
+    hazelcastKubernetesVersion = '2.0.2'
+    hazelcastVersion = '4.0.3'
     javaXCacheVersion = '1.1.1'
     kubernetesClientVersion = '10.0.0'
-    springBootVersion = '2.3.4.RELEASE'
+    springBootVersion = '2.4.0'
 
     junitVersion = '5.7.0'
     mockitoVersion = '3.5.15'
