@@ -22,6 +22,10 @@ import static org.springframework.boot.availability.LivenessState.CORRECT;
 import static org.springframework.boot.availability.ReadinessState.ACCEPTING_TRAFFIC;
 import static org.springframework.boot.availability.ReadinessState.REFUSING_TRAFFIC;
 
+/**
+ * Spring availability state publisher that listens to Hazelcast lifecycle events to determine if an
+ * application instance is ready to receive and process API requests.
+ */
 @Component
 @Log4j2
 public class ReadinessProbeHazelcastLifecycleListener implements LifecycleListener {
@@ -39,7 +43,7 @@ public class ReadinessProbeHazelcastLifecycleListener implements LifecycleListen
     @Override
     public void stateChanged(LifecycleEvent event) {
         if (LIVE_AND_READY_STATES.contains(event.getState())) {
-            LOGGER.debug("Hazelcast transitioned to {} state; this node is now in correct state and accepting traffic", event.getState());
+            LOGGER.debug("Hazelcast transitioned to {} state; this node is now accepting traffic", event.getState());
             publish(applicationEventPublisher, this, CORRECT);
             publish(applicationEventPublisher, this, ACCEPTING_TRAFFIC);
         } else if (LIVE_BUT_NOT_READY_STATES.contains(event.getState())) {

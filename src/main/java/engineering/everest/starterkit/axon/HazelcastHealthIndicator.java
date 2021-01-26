@@ -5,6 +5,12 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
+/**
+ * Health indicator based on the hazelcast lifecycle state.
+ * <p>
+ * Application instances are deemed unhealthy when Hazelcast shuts down, allowing an orchestrator
+ * to terminate that the instance and replace it.
+ */
 @Component
 public class HazelcastHealthIndicator implements HealthIndicator {
     private final HazelcastInstance hazelcastInstance;

@@ -11,6 +11,7 @@ import static com.github.stefanbirkner.systemlambda.SystemLambda.withEnvironment
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 class KubernetesHazelcastConfigurationStrategyTest {
 
@@ -19,7 +20,11 @@ class KubernetesHazelcastConfigurationStrategyTest {
     @BeforeEach
     void setUp() {
         configuration = new Config();
-        new KubernetesHazelcastConfigurationStrategy().apply(configuration);
+        var kubernetesHazelcastConfigurationStrategy = new KubernetesHazelcastConfigurationStrategy();
+
+        setField(kubernetesHazelcastConfigurationStrategy, "kubernetesNamespace", "default");
+        setField(kubernetesHazelcastConfigurationStrategy, "kubernetesServiceName", "web-app");
+        kubernetesHazelcastConfigurationStrategy.apply(configuration);
     }
 
     @Test

@@ -8,10 +8,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
+/**
+ * Hazelcast configuration strategy that explicitly defines cluster members if the
+ * {@code axon.hazelcast.members} property has been defined.
+ *
+ * @see DefaultMulticastHazelcastConfigurationStrategy
+ * @see KubernetesHazelcastConfigurationStrategy
+ */
 @Component
 @Log4j2
-public class TcpIpConfigHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
+class TcpIpConfigHazelcastConfigurationStrategy implements HazelcastConfigurationStrategy {
 
     @Value("${axon.hazelcast.members:}")
     private List<String> hazelcastMembers;

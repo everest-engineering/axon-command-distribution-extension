@@ -1,8 +1,9 @@
-package engineering.everest.starterkit.axon.config;
+package engineering.everest.starterkit.axon;
 
 import com.hazelcast.cluster.Cluster;
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.core.HazelcastInstance;
+import engineering.everest.starterkit.axon.HazelcastMembershipChangeCacheInvalidator;
 import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

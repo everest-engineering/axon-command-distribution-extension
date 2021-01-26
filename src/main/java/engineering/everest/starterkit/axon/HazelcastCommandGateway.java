@@ -17,9 +17,19 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static engineering.everest.starterkit.axon.config.AxonHazelcastConfig.AXON_COMMAND_DISPATCHER;
 import static org.axonframework.commandhandling.GenericCommandMessage.asCommandMessage;
 import static org.axonframework.commandhandling.GenericCommandResultMessage.asCommandResultMessage;
 
+/**
+ *  A command gateway for Axon that uses Hazelcast to deterministically route commands to a single
+ *  application instance based on the aggregate identifier.
+ *  <p>
+ *  Hazelcast will automatically reassign aggregate ownership if an application instance leaves the
+ *  cluster due to a restart, network disconnection or other failure.
+ *
+ * @see HazelcastMembershipChangeCacheInvalidator
+ */
 @Component
 public class HazelcastCommandGateway implements CommandGateway {
 
@@ -75,7 +85,7 @@ public class HazelcastCommandGateway implements CommandGateway {
     private <R> CompletableFuture<R> dispatchThroughHazelcastAndReturnFuture(Object command) {
         CompletableFuture<R> future = new CompletableFuture<>();
         AxonDistributableCommandCallback<R> callback = new AxonDistributableCommandCallback<>(future);
-        hazelcastInstance.getExecutorService(AxonHazelcastConfig.AXON_COMMAND_DISPATCHER)
+        hazelcastInstance.getExecutorService(AXON_COMMAND_DISPATCHER)
                 .submitToKeyOwner(new AxonDistributableCommand<>(command), keyForCommand(command), callback);
         return future;
     }

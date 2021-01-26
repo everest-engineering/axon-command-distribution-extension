@@ -1,4 +1,4 @@
-package engineering.everest.starterkit.axon.config;
+package engineering.everest.starterkit.axon;
 
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.cluster.MembershipListener;
@@ -9,8 +9,15 @@ import org.springframework.stereotype.Component;
 import static engineering.everest.starterkit.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
 import static javax.cache.Caching.getCachingProvider;
 
+/**
+ * Invalidates the Axon aggregate cache when cluster membership changes in order to avoid routing
+ * commands to a stale aggregate.
+ * <p>
+ * This situation is only likely to arise when cluster membership is frequently changing due to,
+ * for example, network issues or a rolling deployment.
+ */
 @Component
-public class HazelcastMembershipChangeCacheInvalidator implements MembershipListener {
+class HazelcastMembershipChangeCacheInvalidator implements MembershipListener {
 
     public HazelcastMembershipChangeCacheInvalidator(HazelcastInstance hazelcastInstance) {
         hazelcastInstance.getCluster().addMembershipListener(this);
