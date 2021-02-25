@@ -1,5 +1,5 @@
 # Distributed command dispatching for Axon
-[![Build Status](https://travis-ci.com/everest-engineering/axon-command-distribution-extension.svg?branch=master)](https://travis-ci.com/everest-engineering/axon-command-distribution-extension) ![Latest release](https://img.shields.io/github/v/release/everest-engineering/axon-command-distribution-extension)
+[![Build status](https://badge.buildkite.com/08647fd3ce0cb18869600a940efece1353f190d6ac59f95c42.svg)](https://buildkite.com/everest-engineering/axon-command-distribution-extension)
 
 This is a supporting repository for [Lhotse](https://github.com/everest-engineering/lhotse), a starter kit for writing event sourced web applications following domain driven design principles.
 
