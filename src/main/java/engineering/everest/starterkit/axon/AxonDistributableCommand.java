@@ -7,9 +7,9 @@ import java.util.concurrent.Callable;
 
 class AxonDistributableCommand<R> implements Callable<R>, Serializable {
 
-    private final Object command;
+    private final Serializable command;
 
-    public AxonDistributableCommand(Object command) {
+    public AxonDistributableCommand(Serializable command) {
         this.command = command;
     }
 

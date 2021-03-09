@@ -3,6 +3,7 @@ package engineering.everest.starterkit.axon;
 import com.hazelcast.core.ExecutionCallback;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
+import engineering.everest.starterkit.axon.exceptions.RemoteCommandExecutionException;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.messaging.MessageDispatchInterceptor;
@@ -102,7 +103,18 @@ class HazelcastCommandGatewayTest {
             return null;
         }).when(executorService).submitToKeyOwner(any(AxonDistributableCommand.class), eq(AGGREGATE_IDENTIFIER), any());
 
-        assertThrows(RuntimeException.class, () -> hazelcastCommandGateway.sendAndWait(command));
+        assertThrows(RemoteCommandExecutionException.class, () -> hazelcastCommandGateway.sendAndWait(command));
+    }
+
+    @Test
+    void sendAndWait_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted() {
+        doAnswer(invocation -> {
+            var expectedException = new InterruptedException("too slow");
+            ((AxonDistributableCommandCallback) invocation.getArguments()[2]).onFailure(expectedException);
+            return null;
+        }).when(executorService).submitToKeyOwner(any(AxonDistributableCommand.class), eq(AGGREGATE_IDENTIFIER), any());
+
+        assertThrows(RemoteCommandExecutionException.class, () -> hazelcastCommandGateway.sendAndWait(command));
     }
 
     @Test
@@ -114,7 +126,7 @@ class HazelcastCommandGatewayTest {
 
     @Test
     void sendAndWaitWithTimeout_WillTimeout_WhenCallbackNotReceived() {
-        assertThrows(RuntimeException.class, () -> hazelcastCommandGateway.sendAndWait(command, 1, SECONDS));
+        assertThrows(RemoteCommandExecutionException.class, () -> hazelcastCommandGateway.sendAndWait(command, 1, SECONDS));
     }
 
     @Test

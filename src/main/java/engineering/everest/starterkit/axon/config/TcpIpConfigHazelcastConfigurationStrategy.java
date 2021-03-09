@@ -1,15 +1,12 @@
 package engineering.everest.starterkit.axon.config;
 
 import com.hazelcast.config.Config;
-import com.hazelcast.config.InterfacesConfig;
 import com.hazelcast.config.JoinConfig;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * Hazelcast configuration strategy that explicitly defines cluster members if the

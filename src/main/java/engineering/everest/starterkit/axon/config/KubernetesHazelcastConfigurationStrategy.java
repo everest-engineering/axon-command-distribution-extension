@@ -26,7 +26,7 @@ class KubernetesHazelcastConfigurationStrategy implements HazelcastConfiguration
     @Value("${axon.hazelcast.kubernetes.namespace:default}")
     private String kubernetesNamespace;
     @Value("${axon.hazelcast.kubernetes.service:web-app}")
-    private final String kubernetesServiceName = "web-app";
+    private String kubernetesServiceName;
 
     @Override
     public boolean canApply() {
