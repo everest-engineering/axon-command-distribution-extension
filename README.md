@@ -1,5 +1,5 @@
 # Distributed command dispatching for Axon
-[![Build status](https://badge.buildkite.com/08647fd3ce0cb18869600a940efece1353f190d6ac59f95c42.svg)](https://buildkite.com/everest-engineering/axon-command-distribution-extension)
+[![Build status](https://badge.buildkite.com/08647fd3ce0cb18869600a940efece1353f190d6ac59f95c42.svg)](https://buildkite.com/everest-engineering/axon-command-distribution-extension) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=everest-engineering_axon-command-distribution-extension&metric=alert_status)](https://sonarcloud.io/dashboard?id=everest-engineering_axon-command-distribution-extension)
 
 This is a supporting repository for [Lhotse](https://github.com/everest-engineering/lhotse), a starter kit for writing event sourced web applications following domain driven design principles.
 
