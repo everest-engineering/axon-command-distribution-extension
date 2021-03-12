@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_COMMAND_DISPATCHER;
@@ -33,7 +34,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class HazelcastCommandGatewayTest {
@@ -47,6 +50,8 @@ class HazelcastCommandGatewayTest {
     @Mock
     private HazelcastInstance hazelcastInstance;
     @Mock
+    private CompletableFutureFactory completableFutureFactory;
+    @Mock
     private MessageDispatchInterceptor<? super CommandMessage<?>> messageDispatchInterceptor;
     @Mock
     private IExecutorService executorService;
@@ -57,11 +62,12 @@ class HazelcastCommandGatewayTest {
 
     @BeforeEach
     void setUp() {
-        hazelcastCommandGateway = new HazelcastCommandGateway(hazelcastInstance, annotationCommandTargetResolver);
+        hazelcastCommandGateway = new HazelcastCommandGateway(hazelcastInstance, annotationCommandTargetResolver, completableFutureFactory);
 
         lenient().when(hazelcastInstance.getExecutorService(AXON_COMMAND_DISPATCHER)).thenReturn(executorService);
         lenient().when(annotationCommandTargetResolver.resolveTarget(command))
                 .thenReturn(VERSIONED_AGGREGATE_IDENTIFIER);
+        lenient().when(completableFutureFactory.create()).thenReturn(new CompletableFuture<>());
     }
 
     @Test
@@ -107,12 +113,10 @@ class HazelcastCommandGatewayTest {
     }
 
     @Test
-    void sendAndWait_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted() {
-        doAnswer(invocation -> {
-            var expectedException = new InterruptedException("too slow");
-            ((AxonDistributableCommandCallback) invocation.getArguments()[2]).onFailure(expectedException);
-            return null;
-        }).when(executorService).submitToKeyOwner(any(AxonDistributableCommand.class), eq(AGGREGATE_IDENTIFIER), any());
+    void sendAndWait_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted() throws InterruptedException, ExecutionException {
+        var future = mock(CompletableFuture.class);
+        when(future.get()).thenThrow(new InterruptedException("too slow"));
+        when(completableFutureFactory.create()).thenReturn(future);
 
         assertThrows(RemoteCommandExecutionException.class, () -> hazelcastCommandGateway.sendAndWait(command));
     }
@@ -127,6 +131,15 @@ class HazelcastCommandGatewayTest {
     @Test
     void sendAndWaitWithTimeout_WillTimeout_WhenCallbackNotReceived() {
         assertThrows(RemoteCommandExecutionException.class, () -> hazelcastCommandGateway.sendAndWait(command, 1, SECONDS));
+    }
+
+    @Test
+    void sendAndWaitWithTimeout_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted() throws InterruptedException, ExecutionException, TimeoutException {
+        var future = mock(CompletableFuture.class);
+        when(future.get(1L, SECONDS)).thenThrow(new InterruptedException("too slow"));
+        when(completableFutureFactory.create()).thenReturn(future);
+
+        assertThrows(RemoteCommandExecutionException.class, () -> hazelcastCommandGateway.sendAndWait(command, 1L, SECONDS));
     }
 
     @Test

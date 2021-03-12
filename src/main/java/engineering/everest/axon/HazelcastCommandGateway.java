@@ -35,12 +35,15 @@ public class HazelcastCommandGateway implements CommandGateway {
 
     private final HazelcastInstance hazelcastInstance;
     private final AnnotationCommandTargetResolver annotationCommandTargetResolver;
+    private final CompletableFutureFactory completableFutureFactory;
 
     @Autowired
     public HazelcastCommandGateway(HazelcastInstance hazelcastInstance,
-                                   AnnotationCommandTargetResolver annotationCommandTargetResolver) {
+                                   AnnotationCommandTargetResolver annotationCommandTargetResolver,
+                                   CompletableFutureFactory completableFutureFactory) {
         this.hazelcastInstance = hazelcastInstance;
         this.annotationCommandTargetResolver = annotationCommandTargetResolver;
+        this.completableFutureFactory = completableFutureFactory;
     }
 
     @Override
@@ -89,8 +92,8 @@ public class HazelcastCommandGateway implements CommandGateway {
     }
 
     private <R> CompletableFuture<R> dispatchThroughHazelcastAndReturnFuture(Serializable command) {
-        CompletableFuture<R> future = new CompletableFuture<>();
-        AxonDistributableCommandCallback<R> callback = new AxonDistributableCommandCallback<>(future);
+        CompletableFuture<R> future = completableFutureFactory.create();
+        var callback = new AxonDistributableCommandCallback<>(future);
         hazelcastInstance.getExecutorService(AXON_COMMAND_DISPATCHER)
                 .submitToKeyOwner(new AxonDistributableCommand<>(command), keyForCommand(command), callback);
         return future;
