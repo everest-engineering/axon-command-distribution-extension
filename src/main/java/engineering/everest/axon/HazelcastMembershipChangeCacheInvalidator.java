@@ -1,4 +1,4 @@
-package engineering.everest.starterkit.axon;
+package engineering.everest.axon;
 
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.cluster.MembershipListener;
@@ -6,7 +6,7 @@ import com.hazelcast.core.HazelcastInstance;
 import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.springframework.stereotype.Component;
 
-import static engineering.everest.starterkit.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
+import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
 import static javax.cache.Caching.getCachingProvider;
 
 /**

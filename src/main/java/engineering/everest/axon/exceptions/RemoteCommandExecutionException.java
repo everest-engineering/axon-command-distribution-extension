@@ -1,4 +1,4 @@
-package engineering.everest.starterkit.axon.exceptions;
+package engineering.everest.axon.exceptions;
 
 public class RemoteCommandExecutionException extends RuntimeException {
     public RemoteCommandExecutionException(Throwable cause) {

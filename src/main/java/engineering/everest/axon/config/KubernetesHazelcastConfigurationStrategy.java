@@ -1,4 +1,4 @@
-package engineering.everest.starterkit.axon.config;
+package engineering.everest.axon.config;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.JoinConfig;

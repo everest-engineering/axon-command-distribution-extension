@@ -12,7 +12,7 @@ plugins {
 
 apply plugin: 'io.freefair.lombok'
 
-group = 'engineering.everest.starterkit'
+group = 'engineering.everest.axon'
 sourceCompatibility = '1.11'
 
 def gitTagVersion = versionDetails()

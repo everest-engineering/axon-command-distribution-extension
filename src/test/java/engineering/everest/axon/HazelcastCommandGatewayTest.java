@@ -1,9 +1,9 @@
-package engineering.everest.starterkit.axon;
+package engineering.everest.axon;
 
 import com.hazelcast.core.ExecutionCallback;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
-import engineering.everest.starterkit.axon.exceptions.RemoteCommandExecutionException;
+import engineering.everest.axon.exceptions.RemoteCommandExecutionException;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.messaging.MessageDispatchInterceptor;
@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static engineering.everest.starterkit.axon.config.AxonHazelcastConfig.AXON_COMMAND_DISPATCHER;
+import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_COMMAND_DISPATCHER;
 import static java.util.UUID.randomUUID;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;

@@ -1,4 +1,4 @@
-package engineering.everest.starterkit.axon;
+package engineering.everest.axon;
 
 import com.hazelcast.core.ExecutionCallback;
 

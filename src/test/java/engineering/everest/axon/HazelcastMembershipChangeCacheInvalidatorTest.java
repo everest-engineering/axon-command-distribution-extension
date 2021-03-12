@@ -1,9 +1,8 @@
-package engineering.everest.starterkit.axon;
+package engineering.everest.axon;
 
 import com.hazelcast.cluster.Cluster;
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.core.HazelcastInstance;
-import engineering.everest.starterkit.axon.HazelcastMembershipChangeCacheInvalidator;
 import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.cache.CacheManager;
 import javax.cache.configuration.MutableConfiguration;
 
-import static engineering.everest.starterkit.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
+import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
 import static java.util.UUID.randomUUID;
 import static javax.cache.Caching.getCachingProvider;
 import static org.junit.jupiter.api.Assertions.assertFalse;

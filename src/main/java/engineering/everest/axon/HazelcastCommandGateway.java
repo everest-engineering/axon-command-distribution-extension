@@ -1,7 +1,7 @@
-package engineering.everest.starterkit.axon;
+package engineering.everest.axon;
 
 import com.hazelcast.core.HazelcastInstance;
-import engineering.everest.starterkit.axon.exceptions.RemoteCommandExecutionException;
+import engineering.everest.axon.exceptions.RemoteCommandExecutionException;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static engineering.everest.starterkit.axon.config.AxonHazelcastConfig.AXON_COMMAND_DISPATCHER;
+import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_COMMAND_DISPATCHER;
 import static org.axonframework.commandhandling.GenericCommandMessage.asCommandMessage;
 import static org.axonframework.commandhandling.GenericCommandResultMessage.asCommandResultMessage;
 
