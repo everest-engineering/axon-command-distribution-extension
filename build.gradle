@@ -1,16 +1,13 @@
 plugins {
     id 'com.palantir.git-version' version '0.12.3'
     id 'idea'
-    id 'io.freefair.lombok' version '5.1.1'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java-library'
     id 'maven-publish'
     id 'signing'
-    id 'org.sonarqube' version '3.1.1'
+    id 'org.sonarqube' version '3.3'
     id 'jacoco'
 }
-
-apply plugin: 'io.freefair.lombok'
 
 group = 'engineering.everest.axon'
 sourceCompatibility = '1.11'
@@ -21,17 +18,18 @@ version = gitTagVersion.commitDistance == 0
         : "${gitTagVersion.lastTag}+${gitTagVersion.commitDistance}-SNAPSHOT"
 
 ext {
-    axonVersion = '4.4.5'
-    ehCacheVersion = '3.9.0'
-    hazelcastKubernetesVersion = '2.0.2'
-    hazelcastVersion = '4.0.3'
+    axonVersion = '4.5.2'
+    ehCacheVersion = '3.9.4'
+    hazelcastKubernetesVersion = '2.2.3'
+    hazelcastVersion = '4.2.1'
     javaXCacheVersion = '1.1.1'
-    kubernetesClientVersion = '10.0.0'
-    springBootVersion = '2.4.0'
+    kubernetesClientVersion = '10.0.1'
+    lombokVersion = '1.18.20'
+    springBootVersion = '2.4.8'
 
-    junitVersion = '5.7.0'
-    mockitoVersion = '3.5.15'
-    systemLambdaVersion = '1.1.1'
+    junitVersion = '5.7.2'
+    mockitoVersion = '3.11.2'
+    systemLambdaVersion = '1.2.0'
 }
 
 dependencyManagement {
@@ -44,6 +42,8 @@ dependencies {
     api 'org.springframework.boot:spring-boot-actuator'
     api "com.hazelcast:hazelcast:${hazelcastVersion}"
 
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation "javax.cache:cache-api:${javaXCacheVersion}"
     implementation "org.ehcache:ehcache:${ehCacheVersion}"
@@ -51,6 +51,8 @@ dependencies {
     implementation "com.hazelcast:hazelcast-kubernetes:${hazelcastKubernetesVersion}"
     implementation "io.kubernetes:client-java:${kubernetesClientVersion}"
 
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testImplementation 'org.springframework:spring-test'
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
     testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
@@ -70,12 +72,6 @@ repositories {
 
 test {
     useJUnitPlatform()
-}
-
-lombok {
-    version = '1.18.16'
-    generateLombokConfig.enabled = false
-    config['lombok.addLombokGeneratedAnnotation'] = 'true'
 }
 
 apply from: 'publishing.gradle'
