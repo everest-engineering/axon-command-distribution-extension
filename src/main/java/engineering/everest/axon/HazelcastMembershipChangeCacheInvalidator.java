@@ -3,11 +3,12 @@ package engineering.everest.axon;
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.cluster.MembershipListener;
 import com.hazelcast.core.HazelcastInstance;
-import org.ehcache.jsr107.EhcacheCachingProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.cache.CacheManager;
+
 import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
-import static javax.cache.Caching.getCachingProvider;
 
 /**
  * Invalidates the Axon aggregate cache when cluster membership changes in order to avoid routing
@@ -19,8 +20,12 @@ import static javax.cache.Caching.getCachingProvider;
 @Component
 class HazelcastMembershipChangeCacheInvalidator implements MembershipListener {
 
-    public HazelcastMembershipChangeCacheInvalidator(HazelcastInstance hazelcastInstance) {
+    private final CacheManager cacheManager;
+
+    public HazelcastMembershipChangeCacheInvalidator(HazelcastInstance hazelcastInstance,
+                                                     @Qualifier("axon-cache-manager") CacheManager cacheManager) {
         hazelcastInstance.getCluster().addMembershipListener(this);
+        this.cacheManager = cacheManager;
     }
 
     @Override
@@ -34,7 +39,6 @@ class HazelcastMembershipChangeCacheInvalidator implements MembershipListener {
     }
 
     private void clearLocalAxonCache() {
-        var cacheManager = getCachingProvider(EhcacheCachingProvider.class.getCanonicalName()).getCacheManager();
         cacheManager.getCache(AXON_AGGREGATES_CACHE).clear();
     }
 }

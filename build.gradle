@@ -10,7 +10,6 @@ plugins {
 }
 
 group = 'engineering.everest.axon'
-sourceCompatibility = '1.11'
 
 def gitTagVersion = versionDetails()
 version = gitTagVersion.commitDistance == 0
@@ -18,17 +17,17 @@ version = gitTagVersion.commitDistance == 0
         : "${gitTagVersion.lastTag}+${gitTagVersion.commitDistance}-SNAPSHOT"
 
 ext {
-    axonVersion = '4.5.2'
-    ehCacheVersion = '3.9.4'
+    axonVersion = '4.5.5'
+    ehCacheVersion = '3.9.7'
     hazelcastKubernetesVersion = '2.2.3'
-    hazelcastVersion = '4.2.1'
+    hazelcastVersion = '4.2.2'
     javaXCacheVersion = '1.1.1'
     kubernetesClientVersion = '10.0.1'
-    lombokVersion = '1.18.20'
-    springBootVersion = '2.4.8'
+    lombokVersion = '1.18.22'
+    springBootVersion = '2.6.0'
 
-    junitVersion = '5.7.2'
-    mockitoVersion = '3.11.2'
+    junitVersion = '5.8.1'
+    mockitoVersion = '4.0.0'
     systemLambdaVersion = '1.2.0'
 }
 
@@ -60,6 +59,9 @@ dependencies {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
     java {
         withJavadocJar()
         withSourcesJar()

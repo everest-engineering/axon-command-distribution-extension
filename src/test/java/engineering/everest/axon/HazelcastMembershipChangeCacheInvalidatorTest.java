@@ -3,21 +3,17 @@ package engineering.everest.axon;
 import com.hazelcast.cluster.Cluster;
 import com.hazelcast.cluster.MembershipEvent;
 import com.hazelcast.core.HazelcastInstance;
-import org.ehcache.jsr107.EhcacheCachingProvider;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.cache.Cache;
 import javax.cache.CacheManager;
-import javax.cache.configuration.MutableConfiguration;
 
 import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
-import static java.util.UUID.randomUUID;
-import static javax.cache.Caching.getCachingProvider;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,19 +26,18 @@ class HazelcastMembershipChangeCacheInvalidatorTest {
     @Mock
     private HazelcastInstance hazelcastInstance;
     @Mock
+    private CacheManager cacheManager;
+    @Mock
+    private Cache cache;
+    @Mock
     private Cluster cluster;
 
     @BeforeEach
     void setUp() {
-        getCacheManager().createCache(AXON_AGGREGATES_CACHE, new MutableConfiguration<>());
+        lenient().when(cacheManager.getCache(AXON_AGGREGATES_CACHE)).thenReturn(cache);
         when(hazelcastInstance.getCluster()).thenReturn(cluster);
 
-        hazelcastMembershipChangeCacheInvalidator = new HazelcastMembershipChangeCacheInvalidator(hazelcastInstance);
-    }
-
-    @AfterEach
-    void tearDown() {
-        getCacheManager().destroyCache(AXON_AGGREGATES_CACHE);
+        hazelcastMembershipChangeCacheInvalidator = new HazelcastMembershipChangeCacheInvalidator(hazelcastInstance, cacheManager);
     }
 
     @Test
@@ -52,23 +47,15 @@ class HazelcastMembershipChangeCacheInvalidatorTest {
 
     @Test
     void axonCacheIsCleared_WhenClusterMemberAdded() {
-        getCacheManager().getCache(AXON_AGGREGATES_CACHE).put(randomUUID(), "a cached object");
-
         hazelcastMembershipChangeCacheInvalidator.memberAdded(mock(MembershipEvent.class));
 
-        assertFalse(getCacheManager().getCache(AXON_AGGREGATES_CACHE).iterator().hasNext());
+        verify(cache).clear();
     }
 
     @Test
     void axonCacheIsCleared_WhenClusterMemberRemoved() {
-        getCacheManager().getCache(AXON_AGGREGATES_CACHE).put(randomUUID(), "a cached object");
-
         hazelcastMembershipChangeCacheInvalidator.memberRemoved(mock(MembershipEvent.class));
 
-        assertFalse(getCacheManager().getCache(AXON_AGGREGATES_CACHE).iterator().hasNext());
-    }
-
-    private CacheManager getCacheManager() {
-        return getCachingProvider(EhcacheCachingProvider.class.getCanonicalName()).getCacheManager();
+        verify(cache).clear();
     }
 }
