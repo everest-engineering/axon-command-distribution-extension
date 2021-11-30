@@ -32,21 +32,21 @@ public class AxonHazelcastConfig {
                                TcpIpConfigHazelcastConfigurationStrategy tcpIpConfigHazelcastConfigurationStrategy) {
         this.cacheManager = cacheManager;
         this.configurationStrategies = List.of(
-                tcpIpConfigHazelcastConfigurationStrategy,
-                kubernetesHazelcastConfigurationStrategy,
-                defaultMulticastHazelcastConfigurationStrategy);
+            tcpIpConfigHazelcastConfigurationStrategy,
+            kubernetesHazelcastConfigurationStrategy,
+            defaultMulticastHazelcastConfigurationStrategy);
     }
 
     @Bean
     public Config hazelcastConfiguration() {
         var hazelcastConfiguration = new Config();
         hazelcastConfiguration.setInstanceName("axon")
-                .addExecutorConfig(new ExecutorConfig().setName(AXON_COMMAND_DISPATCHER));
+            .addExecutorConfig(new ExecutorConfig().setName(AXON_COMMAND_DISPATCHER));
 
         configurationStrategies.stream()
-                .filter(HazelcastConfigurationStrategy::canApply)
-                .findFirst().orElseThrow()
-                .apply(hazelcastConfiguration);
+            .filter(HazelcastConfigurationStrategy::canApply)
+            .findFirst().orElseThrow()
+            .apply(hazelcastConfiguration);
 
         return hazelcastConfiguration;
     }
@@ -56,10 +56,10 @@ public class AxonHazelcastConfig {
     @SuppressWarnings("PMD.CloseResource")
     public JCacheAdapter cacheAdapter() {
         var config = new MutableConfiguration<>()
-                .setStoreByValue(false)
-                .setStatisticsEnabled(true)
-                .setManagementEnabled(true)
-                .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(FIVE_MINUTES));
+            .setStoreByValue(false)
+            .setStatisticsEnabled(true)
+            .setManagementEnabled(true)
+            .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(FIVE_MINUTES));
 
         return new JCacheAdapter(cacheManager.createCache(AXON_AGGREGATES_CACHE, config));
     }

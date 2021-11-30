@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Hazelcast configuration strategy that explicitly defines cluster members if the
- * {@code axon.hazelcast.members} property has been defined.
+ * Hazelcast configuration strategy that explicitly defines cluster members if the {@code axon.hazelcast.members} property has been defined.
  *
  * @see DefaultMulticastHazelcastConfigurationStrategy
  * @see KubernetesHazelcastConfigurationStrategy
@@ -33,7 +32,7 @@ class TcpIpConfigHazelcastConfigurationStrategy implements HazelcastConfiguratio
         JoinConfig joinConfig = hazelcastConfiguration.getNetworkConfig().getJoin();
         joinConfig.getMulticastConfig().setEnabled(false);
         joinConfig.getTcpIpConfig()
-                .setMembers(hazelcastMembers)
-                .setEnabled(true);
+            .setMembers(hazelcastMembers)
+            .setEnabled(true);
     }
 }

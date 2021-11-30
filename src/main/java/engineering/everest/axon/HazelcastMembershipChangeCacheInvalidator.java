@@ -11,11 +11,10 @@ import javax.cache.CacheManager;
 import static engineering.everest.axon.config.AxonHazelcastConfig.AXON_AGGREGATES_CACHE;
 
 /**
- * Invalidates the Axon aggregate cache when cluster membership changes in order to avoid routing
- * commands to a stale aggregate.
+ * Invalidates the Axon aggregate cache when cluster membership changes in order to avoid routing commands to a stale aggregate.
  * <p>
- * This situation is only likely to arise when cluster membership is frequently changing due to,
- * for example, network issues or a rolling deployment.
+ * This situation is only likely to arise when cluster membership is frequently changing due to, for example, network issues or a rolling
+ * deployment.
  */
 @Component
 class HazelcastMembershipChangeCacheInvalidator implements MembershipListener {

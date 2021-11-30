@@ -1,6 +1,5 @@
 package engineering.everest.axon;
 
-
 import com.hazelcast.cluster.Cluster;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.HazelcastInstance;
@@ -61,12 +60,12 @@ class HazelcastHealthIndicatorTest {
         assertEquals(UP, health.getStatus());
 
         var expectedHealthDetails = Map.of(
-                "instance-name", INSTANCE_NAME,
-                "cluster-size", CLUSTER_MEMBERS.size(),
-                "cluster-time", 0L,
-                "cluster-state", IN_TRANSITION,
-                "cluster-version", CLUSTER_VERSION,
-                "cluster-safe", true);
+            "instance-name", INSTANCE_NAME,
+            "cluster-size", CLUSTER_MEMBERS.size(),
+            "cluster-time", 0L,
+            "cluster-state", IN_TRANSITION,
+            "cluster-version", CLUSTER_VERSION,
+            "cluster-safe", true);
         assertEquals(expectedHealthDetails, health.getDetails());
     }
 

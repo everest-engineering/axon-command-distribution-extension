@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 /**
  * Hazelcast configuration strategy that uses multicast to detect cluster members.
  * <p>
- * This configuration strategy will typically not work in cloud provider environments or within an
- * orchestrated container environment such as Kubernetes.
+ * This configuration strategy will typically not work in cloud provider environments or within an orchestrated container environment such
+ * as Kubernetes.
  *
  * @see KubernetesHazelcastConfigurationStrategy
  * @see TcpIpConfigHazelcastConfigurationStrategy

@@ -43,7 +43,8 @@ class HazelcastCommandGatewayTest {
 
     private static final String AGGREGATE_IDENTIFIER = "aggregate-identifier";
     private static final long AGGREGATE_VERSION = 1234L;
-    private static final VersionedAggregateIdentifier VERSIONED_AGGREGATE_IDENTIFIER = new VersionedAggregateIdentifier(AGGREGATE_IDENTIFIER, AGGREGATE_VERSION);
+    private static final VersionedAggregateIdentifier VERSIONED_AGGREGATE_IDENTIFIER =
+        new VersionedAggregateIdentifier(AGGREGATE_IDENTIFIER, AGGREGATE_VERSION);
 
     private HazelcastCommandGateway hazelcastCommandGateway;
 
@@ -66,7 +67,7 @@ class HazelcastCommandGatewayTest {
 
         lenient().when(hazelcastInstance.getExecutorService(AXON_COMMAND_DISPATCHER)).thenReturn(executorService);
         lenient().when(annotationCommandTargetResolver.resolveTarget(command))
-                .thenReturn(VERSIONED_AGGREGATE_IDENTIFIER);
+            .thenReturn(VERSIONED_AGGREGATE_IDENTIFIER);
         lenient().when(completableFutureFactory.create()).thenReturn(new CompletableFuture<>());
     }
 
@@ -87,8 +88,8 @@ class HazelcastCommandGatewayTest {
         final AtomicReference<UUID> callbackResponse = new AtomicReference<>(null);
 
         UUID expectedResponse = randomUUID();
-        hazelcastCommandGateway.send(command, (CommandCallback<CommandMessage<?>, Object>) (message, resultMessage) ->
-                callbackResponse.set(expectedResponse));
+        hazelcastCommandGateway.send(command,
+            (CommandCallback<CommandMessage<?>, Object>) (message, resultMessage) -> callbackResponse.set(expectedResponse));
 
         dispatchCommandAndExecuteCallback(expectedResponse);
         assertEquals(expectedResponse, callbackResponse.get());
@@ -104,7 +105,8 @@ class HazelcastCommandGatewayTest {
     @Test
     void sendAndWait_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenCommandFails() {
         doAnswer(invocation -> {
-            var expectedException = new org.axonframework.messaging.ExecutionException("Command validation failure", new IllegalStateException("boom"));
+            var expectedException =
+                new org.axonframework.messaging.ExecutionException("Command validation failure", new IllegalStateException("boom"));
             ((AxonDistributableCommandCallback) invocation.getArguments()[2]).onFailure(expectedException);
             return null;
         }).when(executorService).submitToKeyOwner(any(AxonDistributableCommand.class), eq(AGGREGATE_IDENTIFIER), any());
@@ -113,7 +115,8 @@ class HazelcastCommandGatewayTest {
     }
 
     @Test
-    void sendAndWait_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted() throws InterruptedException, ExecutionException {
+    void sendAndWait_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted()
+        throws InterruptedException, ExecutionException {
         var future = mock(CompletableFuture.class);
         when(future.get()).thenThrow(new InterruptedException("too slow"));
         when(completableFutureFactory.create()).thenReturn(future);
@@ -134,7 +137,8 @@ class HazelcastCommandGatewayTest {
     }
 
     @Test
-    void sendAndWaitWithTimeout_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted() throws InterruptedException, ExecutionException, TimeoutException {
+    void sendAndWaitWithTimeout_WillAwaitCallbackAndThrowExceptionWrappedAsRuntimeException_WhenThreadInterrupted()
+        throws InterruptedException, ExecutionException, TimeoutException {
         var future = mock(CompletableFuture.class);
         when(future.get(1L, SECONDS)).thenThrow(new InterruptedException("too slow"));
         when(completableFutureFactory.create()).thenReturn(future);
@@ -145,12 +149,13 @@ class HazelcastCommandGatewayTest {
     @Test
     void registerDispatchInterceptor_WillFail() {
         assertThrows(UnsupportedOperationException.class,
-                () -> hazelcastCommandGateway.registerDispatchInterceptor(messageDispatchInterceptor));
+            () -> hazelcastCommandGateway.registerDispatchInterceptor(messageDispatchInterceptor));
     }
 
     private void dispatchCommandAndExecuteCallback(UUID expectedResponse) {
         ArgumentCaptor<ExecutionCallback<Object>> executionCallbackArgumentCaptor = ArgumentCaptor.forClass(ExecutionCallback.class);
-        verify(executorService).submitToKeyOwner(any(AxonDistributableCommand.class), eq(AGGREGATE_IDENTIFIER), executionCallbackArgumentCaptor.capture());
+        verify(executorService).submitToKeyOwner(any(AxonDistributableCommand.class), eq(AGGREGATE_IDENTIFIER),
+            executionCallbackArgumentCaptor.capture());
         var executionCallback = executionCallbackArgumentCaptor.getValue();
         executionCallback.onResponse(expectedResponse);
     }

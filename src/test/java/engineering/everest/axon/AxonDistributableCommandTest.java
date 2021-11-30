@@ -1,6 +1,5 @@
 package engineering.everest.axon;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
@@ -15,7 +14,6 @@ import java.io.Serializable;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 @ExtendWith(MockitoExtension.class)
 class AxonDistributableCommandTest {
@@ -41,7 +39,6 @@ class AxonDistributableCommandTest {
 
         verify(defaultCommandGateway).sendAndWait(serializableCommand);
     }
-
 
     @Data
     @AllArgsConstructor

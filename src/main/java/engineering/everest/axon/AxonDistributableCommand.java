@@ -16,7 +16,7 @@ class AxonDistributableCommand<R> implements Callable<R>, Serializable {
     @Override
     public R call() {
         DefaultCommandGateway commandGateway = HazelcastApplicationContextHolder.getApplicationContext()
-                .getBean(DefaultCommandGateway.class);
+            .getBean(DefaultCommandGateway.class);
         return commandGateway.sendAndWait(command);
     }
 }

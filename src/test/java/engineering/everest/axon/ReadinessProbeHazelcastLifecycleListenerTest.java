@@ -47,7 +47,8 @@ class ReadinessProbeHazelcastLifecycleListenerTest {
     @BeforeEach
     void setUp() {
         when(hazelcastInstance.getLifecycleService()).thenReturn(lifecycleService);
-        readinessProbeHazelcastLifecycleListener = new ReadinessProbeHazelcastLifecycleListener(hazelcastInstance, applicationEventPublisher);
+        readinessProbeHazelcastLifecycleListener =
+            new ReadinessProbeHazelcastLifecycleListener(hazelcastInstance, applicationEventPublisher);
     }
 
     @Test

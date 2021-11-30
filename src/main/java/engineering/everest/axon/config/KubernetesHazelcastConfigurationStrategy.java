@@ -13,8 +13,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 /**
  * Hazelcast configuration strategy for Kubernetes.
  * <p>
- * The default namespace and service name can be overridden by defining the
- * {@code axon.hazelcast.kubernetes.namespace} and {@code axon.hazelcast.kubernetes.service} properties.
+ * The default namespace and service name can be overridden by defining the {@code axon.hazelcast.kubernetes.namespace} and
+ * {@code axon.hazelcast.kubernetes.service} properties.
  *
  * @see DefaultMulticastHazelcastConfigurationStrategy
  * @see TcpIpConfigHazelcastConfigurationStrategy
@@ -39,9 +39,9 @@ class KubernetesHazelcastConfigurationStrategy implements HazelcastConfiguration
         JoinConfig joinConfig = hazelcastConfiguration.getNetworkConfig().getJoin();
         joinConfig.getMulticastConfig().setEnabled(false);
         joinConfig.getKubernetesConfig()
-                .setEnabled(true)
-                .setProperty("namespace", kubernetesNamespace)
-                .setProperty("service-name", kubernetesServiceName);
+            .setEnabled(true)
+            .setProperty("namespace", kubernetesNamespace)
+            .setProperty("service-name", kubernetesServiceName);
     }
 
     private boolean isRunningInKubernetes() {

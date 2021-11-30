@@ -22,11 +22,11 @@ import static org.axonframework.commandhandling.GenericCommandMessage.asCommandM
 import static org.axonframework.commandhandling.GenericCommandResultMessage.asCommandResultMessage;
 
 /**
- * A command gateway for Axon that uses Hazelcast to deterministically route commands to a single
- * application instance based on the aggregate identifier.
+ * A command gateway for Axon that uses Hazelcast to deterministically route commands to a single application instance based on the
+ * aggregate identifier.
  * <p>
- * Hazelcast will automatically reassign aggregate ownership if an application instance leaves the
- * cluster due to a restart, network disconnection or other failure.
+ * Hazelcast will automatically reassign aggregate ownership if an application instance leaves the cluster due to a restart, network
+ * disconnection or other failure.
  *
  * @see HazelcastMembershipChangeCacheInvalidator
  */
@@ -95,7 +95,7 @@ public class HazelcastCommandGateway implements CommandGateway {
         CompletableFuture<R> future = completableFutureFactory.create();
         var callback = new AxonDistributableCommandCallback<>(future);
         hazelcastInstance.getExecutorService(AXON_COMMAND_DISPATCHER)
-                .submitToKeyOwner(new AxonDistributableCommand<>(command), keyForCommand(command), callback);
+            .submitToKeyOwner(new AxonDistributableCommand<>(command), keyForCommand(command), callback);
         return future;
     }
 

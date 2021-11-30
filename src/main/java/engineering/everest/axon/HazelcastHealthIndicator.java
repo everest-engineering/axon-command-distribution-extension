@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 /**
  * Health indicator based on the hazelcast lifecycle state.
  * <p>
- * Application instances are deemed unhealthy when Hazelcast shuts down, allowing an orchestrator
- * to terminate that the instance and replace it.
+ * Application instances are deemed unhealthy when Hazelcast shuts down, allowing an orchestrator to terminate that the instance and replace
+ * it.
  */
 @Component
 public class HazelcastHealthIndicator implements HealthIndicator {
@@ -24,14 +24,16 @@ public class HazelcastHealthIndicator implements HealthIndicator {
         var partitionService = hazelcastInstance.getPartitionService();
         var cluster = hazelcastInstance.getCluster();
 
-        Health.Builder builder = hazelcastInstance.getLifecycleService().isRunning() ? Health.up() : Health.down();
+        Health.Builder builder = hazelcastInstance.getLifecycleService().isRunning()
+            ? Health.up()
+            : Health.down();
         return builder
-                .withDetail("instance-name", hazelcastInstance.getName())
-                .withDetail("cluster-size", cluster.getMembers().size())
-                .withDetail("cluster-state", cluster.getClusterState())
-                .withDetail("cluster-time", cluster.getClusterTime())
-                .withDetail("cluster-version", cluster.getClusterVersion())
-                .withDetail("cluster-safe", partitionService.isClusterSafe())  // Unsafe doesn't mean down yet
-                .build();
+            .withDetail("instance-name", hazelcastInstance.getName())
+            .withDetail("cluster-size", cluster.getMembers().size())
+            .withDetail("cluster-state", cluster.getClusterState())
+            .withDetail("cluster-time", cluster.getClusterTime())
+            .withDetail("cluster-version", cluster.getClusterVersion())
+            .withDetail("cluster-safe", partitionService.isClusterSafe())  // Unsafe doesn't mean down yet
+            .build();
     }
 }

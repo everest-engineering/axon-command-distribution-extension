@@ -23,8 +23,8 @@ import static org.springframework.boot.availability.ReadinessState.ACCEPTING_TRA
 import static org.springframework.boot.availability.ReadinessState.REFUSING_TRAFFIC;
 
 /**
- * Spring availability state publisher that listens to Hazelcast lifecycle events to determine if an
- * application instance is ready to receive and process API requests.
+ * Spring availability state publisher that listens to Hazelcast lifecycle events to determine if an application instance is ready to
+ * receive and process API requests.
  */
 @Component
 @Log4j2
@@ -35,7 +35,8 @@ public class ReadinessProbeHazelcastLifecycleListener implements LifecycleListen
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ReadinessProbeHazelcastLifecycleListener(HazelcastInstance hazelcastInstance, ApplicationEventPublisher applicationEventPublisher) {
+    public ReadinessProbeHazelcastLifecycleListener(HazelcastInstance hazelcastInstance,
+                                                    ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
         hazelcastInstance.getLifecycleService().addLifecycleListener(this);
     }

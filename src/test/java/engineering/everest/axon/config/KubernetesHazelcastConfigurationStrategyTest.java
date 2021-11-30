@@ -1,6 +1,5 @@
 package engineering.everest.axon.config;
 
-
 import com.hazelcast.config.Config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,22 +45,22 @@ class KubernetesHazelcastConfigurationStrategyTest {
     @Test
     void canApply_WillBeTrue_WhenKubernetesEnvironmentVariablesSet() throws Exception {
         var canApply = withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
-                .and("KUBERNETES_SERVICE_PORT", "1234")
-                .execute(() -> new KubernetesHazelcastConfigurationStrategy().canApply());
+            .and("KUBERNETES_SERVICE_PORT", "1234")
+            .execute(() -> new KubernetesHazelcastConfigurationStrategy().canApply());
         assertTrue(canApply);
     }
 
     @Test
     void canApply_WillBeFalse_WhenKubernetesPortEnvironmentVariableMissing() throws Exception {
         var canApply = withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
-                .execute(() -> new KubernetesHazelcastConfigurationStrategy().canApply());
+            .execute(() -> new KubernetesHazelcastConfigurationStrategy().canApply());
         assertFalse(canApply);
     }
 
     @Test
     void canApply_WillBeFalse_WhenKubernetesHostEnvironmentVariableMissing() throws Exception {
         var canApply = withEnvironmentVariable("KUBERNETES_SERVICE_PORT", "1234")
-                .execute(() -> new KubernetesHazelcastConfigurationStrategy().canApply());
+            .execute(() -> new KubernetesHazelcastConfigurationStrategy().canApply());
         assertFalse(canApply);
     }
 }
